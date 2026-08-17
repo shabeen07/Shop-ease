@@ -26,12 +26,21 @@ These rules are derived from the project's core documentation and define the man
 - **Error Handling:** Technical exceptions (Dio, Storage) -> Application Failures -> User-friendly State.
 - **DI Registration:** External -> Infrastructure -> DataSources -> Repositories -> UseCases -> BLoCs.
 
-## 5. Security & Safety
+## 5. Static Analysis Mandate
+- **Mandatory Workflow:** Always run `dart format`, `dart fix --apply`, and `flutter analyze` after code changes.
+- **Protocol Reference:** See [Analysis Protocol](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/workflows/analysis-protocol.agent.md) for detailed steps.
+- **Zero-Issue Delivery:** Code is only complete when the analyzer reports 0 issues.
+
+## 6. Security & Safety
 - **Secrets Management:** NO hardcoded keys, tokens, or sensitive configs in source code.
 - **Logging:** Do not log sensitive payloads, passwords, or raw auth responses.
 - **Secure Storage:** Sensitive session data (tokens) MUST use secure storage abstractions.
 
-## 6. Design System
+## 7. Design System
 - **Theme:** Latest Material 3.
 - **Primary Color:** Electric Blue (`#2563EB`).
 - **Modes:** Support Light, Dark, and System modes via `AppTheme`.
+
+## 8. Post-Implementation Review
+- **Mandatory Review:** Immediately after implementation, the AI agent MUST execute the [Review & Repair Workflow](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/workflows/review-workflow.agent.md).
+- **Definition of Done:** A task is only "Done" when the automated analysis passes AND all steps in the review workflow are checked.
