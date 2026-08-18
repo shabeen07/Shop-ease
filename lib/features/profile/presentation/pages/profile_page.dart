@@ -17,7 +17,10 @@ class ProfilePage extends StatelessWidget {
         ProfileBloc(authBloc: context.read<AuthBloc>())
           ..add(ProfileLoadRequested()),
     child: Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        leading: BackButton(onPressed: () => context.goNamed(RouteNames.home)),
+      ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state.status == ProfileStatus.success && state.user != null) {
@@ -97,36 +100,51 @@ class _ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(32, 48, 32, 32),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [theme.colorScheme.primary, theme.colorScheme.secondary],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF2563EB), // Brand Primary
+            Color(0xFF4F46E5), // Brand Indigo
+            Color(0xFF7C3AED), // Brand Purple
+          ],
         ),
       ),
       child: Column(
         children: [
           CircleAvatar(
-            radius: 40,
+            radius: 44,
             backgroundColor: Colors.white.withValues(alpha: 0.2),
             child: Text(
-              name.isNotEmpty ? name[0] : 'U',
-              style: const TextStyle(fontSize: 32, color: Colors.white),
+              name.isNotEmpty ? name[0].toUpperCase() : 'U',
+              style: const TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
           const SizedBox(height: 16),
           Text(
             name,
-            style: const TextStyle(
-              fontSize: 20,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
+          const SizedBox(height: 4),
           Text(
             email,
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.white.withValues(alpha: 0.85),
+            ),
           ),
         ],
       ),

@@ -64,7 +64,12 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         '/products/categories',
       );
       if (response.statusCode == 200 && response.data != null) {
-        return response.data!.map((e) => e.toString()).toList();
+        return response.data!.map((e) {
+          if (e is Map<String, dynamic>) {
+            return e['name'] as String? ?? e['slug'] as String? ?? e.toString();
+          }
+          return e.toString();
+        }).toList();
       } else {
         throw ServerException('Failed to load categories');
       }

@@ -627,12 +627,12 @@
 
     /* ─── Profile Header ─────────────────────────────────────────── */
     .profile-hero {
-      background: linear-gradient(145deg, var(--primary) 0%, #4F46E5 100%);
-      padding: 32px 16px 24px;
+      background: linear-gradient(135deg, #2563EB 0%, #4F46E5 50%, #7C3AED 100%);
+      padding: 48px 16px 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       color: white;
       position: relative;
       overflow: hidden;
@@ -642,16 +642,8 @@
       position: absolute;
       width: 240px; height: 240px;
       border-radius: 50%;
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.08);
       top: -80px; right: -60px;
-    }
-    .profile-hero::after {
-      content: '';
-      position: absolute;
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.04);
-      bottom: -60px; left: -40px;
     }
     .avatar {
       width: 88px; height: 88px;
@@ -661,19 +653,20 @@
       font-size: 36px;
       font-weight: 700;
       color: white;
-      border: 3px solid rgba(255,255,255,.4);
+      border: 3px solid rgba(255,255,255,.3);
       backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
       z-index: 1;
     }
     .profile-name {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
       z-index: 1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .profile-email {
-      font-size: 13px;
-      opacity: .8;
+      font-size: 14px;
+      opacity: .9;
       z-index: 1;
     }
     .profile-edit-btn {
@@ -1273,7 +1266,10 @@
   <!-- ════════════ NOTIFICATIONS ════════════ -->
   <div id="screen-notifications" class="screen">
     <div class="app-bar">
-      <div class="bar-title" style="padding-left:16px; font-weight:700; font-size:24px;">Notifications</div>
+      <button class="icon-btn" onclick="navTo('screen-home')" aria-label="Back">
+        <span class="material-symbols-rounded">arrow_back</span>
+      </button>
+      <div class="bar-title">Notifications</div>
       <button class="icon-btn" aria-label="Mark all read">
         <span class="material-symbols-rounded">done_all</span>
       </button>
@@ -1351,6 +1347,12 @@
 
   <!-- ════════════ PROFILE ════════════ -->
   <div id="screen-profile" class="screen">
+    <div class="app-bar">
+      <button class="icon-btn" onclick="navTo('screen-home')" aria-label="Back">
+        <span class="material-symbols-rounded">arrow_back</span>
+      </button>
+      <div class="bar-title">Profile</div>
+    </div>
     <div class="screen-scroll" style="background:var(--background);">
       <div id="profile-loading" class="state-view loading-state" style="min-height:100%;">
         <div class="m3-spinner"></div>

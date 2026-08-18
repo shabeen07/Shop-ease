@@ -64,80 +64,81 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          _SearchBar(controller: _searchController),
-          const _CategoryList(),
-          Expanded(
-            child: BlocBuilder<ProductsBloc, ProductsState>(
-              builder: (context, state) {
-                switch (state.status) {
-                  case ProductsStatus.loading:
-                    return const Center(child: CircularProgressIndicator());
-                  case ProductsStatus.empty:
-                    return const _EmptyState();
-                  case ProductsStatus.failure:
-                    return _ErrorState(message: state.errorMessage);
-                  case ProductsStatus.success:
-                    return RefreshIndicator(
-                      onRefresh: () async {
-                        context.read<ProductsBloc>().add(ProductsRefreshed());
-                      },
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          final crossAxisCount = constraints.maxWidth > 600
-                              ? 3
-                              : 2;
-                          final childAspectRatio = constraints.maxWidth < 350
-                              ? 0.55
-                              : 0.65;
+      body: BlocBuilder<ProductsBloc, ProductsState>(
+        builder: (context, state) {
+          if (state.status == ProductsStatus.loading &&
+              state.products.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                          return GridView.builder(
-                            controller: _scrollController,
-                            padding: const EdgeInsets.all(16),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: crossAxisCount,
-                                  childAspectRatio: childAspectRatio,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                ),
-                            itemCount: state.hasReachedMax
-                                ? state.products.length
-                                : state.products.length + 1,
-                            itemBuilder: (context, index) {
-                              if (index >= state.products.length) {
-                                return const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              }
-                              final product = state.products[index];
-                              return ProductCard(
-                                product: product,
-                                onTap: () => context.pushNamed(
-                                  RouteNames.productDetail,
-                                  pathParameters: {'id': product.id.toString()},
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  default:
-                    return const SizedBox();
-                }
-              },
-            ),
-          ),
-        ],
+          return Column(
+            children: [
+              _SearchBar(controller: _searchController),
+              const _CategoryList(),
+              Expanded(child: _buildMainContent(context, state)),
+            ],
+          );
+        },
       ),
       bottomNavigationBar: const _BottomNav(currentIndex: 0),
     ),
   );
+
+  Widget _buildMainContent(BuildContext context, ProductsState state) {
+    switch (state.status) {
+      case ProductsStatus.empty:
+        return const _EmptyState();
+      case ProductsStatus.failure:
+        return _ErrorState(message: state.errorMessage);
+      case ProductsStatus.success:
+      case ProductsStatus.loading:
+        return RefreshIndicator(
+          onRefresh: () async {
+            context.read<ProductsBloc>().add(ProductsRefreshed());
+          },
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+              final childAspectRatio = constraints.maxWidth < 350 ? 0.55 : 0.65;
+
+              return GridView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.all(16),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  childAspectRatio: childAspectRatio,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemCount: state.hasReachedMax
+                    ? state.products.length
+                    : state.products.length + 1,
+                itemBuilder: (context, index) {
+                  if (index >= state.products.length) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  final product = state.products[index];
+                  return ProductCard(
+                    product: product,
+                    onTap: () => context.pushNamed(
+                      RouteNames.productDetail,
+                      pathParameters: {'id': product.id.toString()},
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+      default:
+        return const SizedBox();
+    }
+  }
 }
 
 class _SearchBar extends StatelessWidget {
@@ -146,70 +147,70 @@ class _SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: 'Search products...',
-          prefixIcon: const Icon(Icons.search),
-          suffixIcon: IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              controller.clear();
-              context.read<ProductsBloc>().add(const SearchQueryChanged(''));
-            },
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+    child: TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: 'Search products...',
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            controller.clear();
+            context.read<ProductsBloc>().add(const SearchQueryChanged(''));
+          },
         ),
-        onSubmitted: (query) {
-          context.read<ProductsBloc>().add(SearchQueryChanged(query));
-        },
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        filled: true,
+        fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       ),
-    );
+      onSubmitted: (query) {
+        context.read<ProductsBloc>().add(SearchQueryChanged(query));
+      },
+    ),
+  );
 }
 
 class _CategoryList extends StatelessWidget {
   const _CategoryList();
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<ProductsBloc, ProductsState>(
-      builder: (context, state) {
-        if (state.categories.isEmpty) return const SizedBox.shrink();
+  Widget build(
+    BuildContext context,
+  ) => BlocBuilder<ProductsBloc, ProductsState>(
+    builder: (context, state) {
+      if (state.categories.isEmpty) return const SizedBox.shrink();
 
-        return SizedBox(
-          height: 50,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            scrollDirection: Axis.horizontal,
-            itemCount: state.categories.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 8),
-            itemBuilder: (context, index) {
-              final category = state.categories[index];
-              final isSelected =
-                  state.selectedCategory == category ||
-                  (category == 'All' && state.selectedCategory == null);
+      return SizedBox(
+        height: 50,
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          scrollDirection: Axis.horizontal,
+          itemCount: state.categories.length,
+          separatorBuilder: (context, index) => const SizedBox(width: 8),
+          itemBuilder: (context, index) {
+            final category = state.categories[index];
+            final isSelected =
+                state.selectedCategory == category ||
+                (category == 'All' && state.selectedCategory == null);
 
-              return ChoiceChip(
-                label: Text(category[0].toUpperCase() + category.substring(1)),
-                selected: isSelected,
-                onSelected: (selected) {
-                  if (selected) {
-                    context.read<ProductsBloc>().add(
-                      CategorySelected(category),
-                    );
-                  }
-                },
-              );
-            },
-          ),
-        );
-      },
-    );
+            return ChoiceChip(
+              label: Text(category[0].toUpperCase() + category.substring(1)),
+              selected: isSelected,
+              onSelected: (selected) {
+                if (selected) {
+                  context.read<ProductsBloc>().add(CategorySelected(category));
+                }
+              },
+            );
+          },
+        ),
+      );
+    },
+  );
 }
 
 class _EmptyState extends StatelessWidget {

@@ -53,42 +53,55 @@ class SettingsPage extends StatelessWidget {
   void _showThemeSelector(BuildContext context, AppThemeMode currentMode) {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (context) => Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Choose Theme',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            RadioGroup<AppThemeMode>(
-              groupValue: currentMode,
-              onChanged: (newMode) {
-                if (newMode != null) {
-                  context.read<SettingsBloc>().add(ThemeModeChanged(newMode));
-                  Navigator.pop(context);
-                }
-              },
-              child: Column(
-                children: AppThemeMode.values
-                    .map(
-                      (mode) => RadioListTile<AppThemeMode>(
-                        title: Text(mode.name.toUpperCase()),
-                        value: mode,
-                      ),
-                    )
-                    .toList(),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Choose Theme',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              RadioGroup<AppThemeMode>(
+                groupValue: currentMode,
+                onChanged: (newMode) {
+                  if (newMode != null) {
+                    context.read<SettingsBloc>().add(ThemeModeChanged(newMode));
+                    Navigator.pop(context);
+                  }
+                },
+                child: Column(
+                  children: AppThemeMode.values
+                      .map(
+                        (mode) => RadioListTile<AppThemeMode>(
+                          title: Text(mode.name.toUpperCase()),
+                          value: mode,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

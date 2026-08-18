@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shop_ease/app/di/injection.dart';
-
+import 'package:shop_ease/app/router/route_names.dart';
 import 'package:shop_ease/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:shop_ease/features/notifications/presentation/bloc/notifications_event.dart';
 import 'package:shop_ease/features/notifications/presentation/bloc/notifications_state.dart';
@@ -15,7 +16,10 @@ class NotificationsPage extends StatelessWidget {
         NotificationsBloc(repository: getIt())
           ..add(NotificationsLoadRequested()),
     child: Scaffold(
-      appBar: AppBar(title: const Text('Notifications')),
+      appBar: AppBar(
+        title: const Text('Notifications'),
+        leading: BackButton(onPressed: () => context.goNamed(RouteNames.home)),
+      ),
       body: BlocBuilder<NotificationsBloc, NotificationsState>(
         builder: (context, state) {
           if (state.status == NotificationsStatus.loading) {
