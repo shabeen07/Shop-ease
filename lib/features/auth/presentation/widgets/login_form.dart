@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:shop_ease/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_event.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_state.dart';
@@ -62,6 +61,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _usernameController,
             decoration: const InputDecoration(
               labelText: 'Username',
+              hintText: 'Enter your username',
               border: OutlineInputBorder(),
             ),
             validator: (value) {

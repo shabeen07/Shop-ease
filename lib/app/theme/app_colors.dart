@@ -14,4 +14,11 @@ class AppColors {
   static const Color onSurfaceDark = Color(0xFFE2E2E9);
 
   static const Color error = Color(0xFFBA1A1A);
+
+  // Brand Gradients
+  static const List<Color> brandGradient = [
+    Color(0xFF2563EB), // Electric Blue
+    Color(0xFF4F46E5), // Indigo
+    Color(0xFF7C3AED), // Purple
+  ];
 }

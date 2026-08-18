@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                     name: '${user.firstName} ${user.lastName}',
                     email: user.email,
                   ),
-                  const SizedBox(height: 24),
+                  const _SectionHeader(title: 'Account'),
                   _ProfileMenuTile(
                     icon: Icons.person_outline,
                     title: 'Edit Profile',
@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                     title: 'Help & Support',
                     onTap: () {},
                   ),
-                  const Divider(height: 32),
+                  const _SectionHeader(title: 'Session'),
                   _ProfileMenuTile(
                     icon: Icons.logout,
                     title: 'Log Out',
@@ -56,6 +56,7 @@ class ProfilePage extends StatelessWidget {
                     iconColor: Colors.red,
                     onTap: () => _showLogoutDialog(context),
                   ),
+                  const SizedBox(height: 32),
                 ],
               ),
             );
@@ -100,18 +101,19 @@ class _ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(32, 48, 32, 32),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF2563EB), // Brand Primary
-            Color(0xFF4F46E5), // Brand Indigo
-            Color(0xFF7C3AED), // Brand Purple
+            colorScheme.primary,
+            colorScheme.primary.withValues(alpha: 0.8),
+            colorScheme.secondary,
           ],
         ),
       ),
@@ -150,6 +152,24 @@ class _ProfileHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  const _SectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+    child: Text(
+      title.toUpperCase(),
+      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1.2,
+      ),
+    ),
+  );
 }
 
 class _ProfileMenuTile extends StatelessWidget {

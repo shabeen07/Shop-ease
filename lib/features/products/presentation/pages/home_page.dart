@@ -276,9 +276,10 @@ class _BottomNav extends StatelessWidget {
   Widget build(BuildContext context) => NavigationBar(
     selectedIndex: currentIndex,
     onDestinationSelected: (index) {
+      if (index == currentIndex) return;
       if (index == 0) context.goNamed(RouteNames.home);
-      if (index == 1) context.goNamed(RouteNames.notifications);
-      if (index == 2) context.goNamed(RouteNames.profile);
+      if (index == 1) context.pushNamed(RouteNames.notifications);
+      if (index == 2) context.pushNamed(RouteNames.profile);
     },
     destinations: const [
       NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
