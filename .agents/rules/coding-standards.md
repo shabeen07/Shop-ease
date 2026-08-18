@@ -70,23 +70,22 @@ Use `const` aggressively. If a widget or value can be `const`, make it `const`. 
 ## Async
 
 - Use `async`/`await` — avoid raw `Future.then` chains
-- Always handle errors in async code — return `Failure` via `Result<T, Failure>`
+- Always handle errors in async code — return `Failure` via `Either<Failure, T>`
 - Never swallow errors silently
 
 ## Error Handling
 
-Use `Result<T, Failure>` pattern.
+Use `Either<Failure, T>` pattern.
 
-- Repositories return `Future<Result<T, Failure>>`
+- Repositories return `Future<Either<Failure, T>>`
 - Exceptions converted to `Failure` in data layer
-- BLoCs consume `Result`, never catch exceptions
+- BLoCs consume `Either`, never catch exceptions
 - UI never shows raw backend errors
 
 ## Logging
 
 - Use the project logger (under `lib/src/core/utils/` or similar)
 - Never `print()` in production
-- Never log PII (email, phone, NHC, names, tokens). See `04-safety.md`.
 
 ## Localization
 
@@ -177,15 +176,3 @@ Sometimes a rule doesn't fit. When deviating:
 - **Only comment code logic**, not functional details
 - Keep comments **one line, simple**
 - If code is clear, no comment needed
-
-Example:
-
-```dart
-// Check if both conditions are true before proceeding
-if (a && b) { ... }
-```
-
-Don't comment functional details:
-
-- ❌ Validate NHC against ZIDP tenant database to ensure security compliance
-- ✅ Check tenant match before auth
