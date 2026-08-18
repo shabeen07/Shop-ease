@@ -627,8 +627,8 @@
 
     /* ─── Profile Header ─────────────────────────────────────────── */
     .profile-hero {
-      background: linear-gradient(135deg, #2563EB 0%, #4F46E5 50%, #7C3AED 100%);
-      padding: 48px 16px 32px;
+      background: linear-gradient(135deg, var(--primary) 0%, rgba(37,99,235,.8) 50%, var(--md-sys-color-secondary) 100%);
+      padding: 48px 32px 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -689,7 +689,7 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--primary);
-      padding: 20px 16px 8px;
+      padding: 24px 16px 8px;
     }
 
     /* ─── Switch (M3) ────────────────────────────────────────────── */
@@ -827,7 +827,7 @@
 
     /* ─── Login Hero ─────────────────────────────────────────────── */
     .login-hero {
-      background: linear-gradient(160deg, #2563EB 0%, #4F46E5 50%, #7C3AED 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, rgba(37,99,235,.8) 50%, var(--md-sys-color-secondary) 100%);
       padding: 56px 32px 40px;
       display: flex;
       flex-direction: column;
@@ -1005,13 +1005,13 @@
       </div>
 
       <div class="text-field" id="username-field">
-        <input type="text" id="login-username" placeholder=" " autocomplete="username">
+        <input type="text" id="login-username" placeholder=" " value="emilys">
         <label for="login-username">Username</label>
         <div class="field-error-text">Please enter your username</div>
       </div>
 
       <div class="text-field" id="password-field">
-        <input type="password" id="login-password" placeholder=" " autocomplete="current-password">
+        <input type="password" id="login-password" placeholder=" " value="emilyspass">
         <label for="login-password">Password</label>
         <div class="field-error-text">Password must be at least 4 characters</div>
       </div>
@@ -1377,7 +1377,6 @@
           <div class="avatar">JD</div>
           <div class="profile-name">John Doe</div>
           <div class="profile-email">john.doe@example.com</div>
-          <button class="profile-edit-btn" onclick="navTo('screen-edit-profile')">Edit Profile</button>
         </div>
 
         <!-- Account section -->
@@ -1599,8 +1598,14 @@
 
   // ── Navigation ────────────────────────────────────────────────────
   function navTo(screenId) {
+    console.log('Navigating to:', screenId);
+    const target = document.getElementById(screenId);
+    if (!target) {
+      console.error('Target screen not found:', screenId);
+      return;
+    }
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
+    target.classList.add('active');
     currentScreenId = screenId;
 
     // Update bottom nav active state for primary screens
@@ -1628,6 +1633,7 @@
 
   // ── State Management ──────────────────────────────────────────────
   function setScreenState(stateName) {
+    console.log('Setting screen state:', stateName, 'for', currentScreenId);
     const screen = document.getElementById(currentScreenId);
     if (!screen) return;
 
@@ -1639,42 +1645,58 @@
       error:   '.error-state',
       success: '.content-view',
     };
-    const target = screen.querySelector(classMap[stateName]);
+    const targetSelector = classMap[stateName];
+    const target = screen.querySelector(targetSelector);
     if (target) {
       target.classList.add('active');
       if (target.classList.contains('product-grid')) target.style.display = 'grid';
+    } else {
+      console.warn('State view not found:', targetSelector, 'in', currentScreenId);
     }
   }
 
   // ── Login ─────────────────────────────────────────────────────────
   function handleLogin() {
-    const email = document.getElementById('login-email').value;
-    const pwd   = document.getElementById('login-password').value;
-    const ef    = document.getElementById('email-field');
-    const pf    = document.getElementById('password-field');
-    let valid   = true;
+    console.log('handleLogin called');
+    const uInput = document.getElementById('login-username');
+    const pInput = document.getElementById('login-password');
+    const uField = document.getElementById('username-field');
+    const pField = document.getElementById('password-field');
 
-    if (!email || !email.includes('@')) { ef.classList.add('error'); valid = false; }
-    else ef.classList.remove('error');
+    if (!uInput || !pInput || !uField || !pField) {
+      console.error('Login elements not found');
+      return;
+    }
 
-    if (!pwd || pwd.length < 4) { pf.classList.add('error'); valid = false; }
-    else pf.classList.remove('error');
+    const username = uInput.value;
+    const pwd      = pInput.value;
+    let valid      = true;
+
+    if (!username || username.length < 3) { uField.classList.add('error'); valid = false; }
+    else uField.classList.remove('error');
+
+    if (!pwd || pwd.length < 4) { pField.classList.add('error'); valid = false; }
+    else pField.classList.remove('error');
 
     if (!valid) return;
 
-    const btn   = document.getElementById('login-btn');
-    btn.disabled = true;
-    document.getElementById('login-btn-text').style.display = 'none';
-    document.getElementById('login-loader').style.display = 'block';
-    document.getElementById('login-error-banner').classList.remove('visible');
+    const btn = document.getElementById('login-btn');
+    const loader = document.getElementById('login-loader');
+    const btnText = document.getElementById('login-btn-text');
+    const errBanner = document.getElementById('login-error-banner');
+
+    if (btn) btn.disabled = true;
+    if (btnText) btnText.style.display = 'none';
+    if (loader) loader.style.display = 'block';
+    if (errBanner) errBanner.classList.remove('visible');
 
     setTimeout(() => {
-      btn.disabled = false;
-      document.getElementById('login-btn-text').style.display = 'block';
-      document.getElementById('login-loader').style.display = 'none';
+      if (btn) btn.disabled = false;
+      if (btnText) btnText.style.display = 'block';
+      if (loader) loader.style.display = 'none';
 
-      if (email === 'error@example.com') {
-        document.getElementById('login-error-banner').classList.add('visible');
+      if (username === 'error_user') {
+        if (errBanner) errBanner.classList.add('visible');
       } else {
         navTo('screen-home');
       }
@@ -1717,7 +1739,7 @@
   }
   function confirmLogout() {
     hideLogoutDialog();
-    document.getElementById('login-email').value = '';
+    document.getElementById('login-username').value = '';
     document.getElementById('login-password').value = '';
     document.getElementById('proto-fab').classList.remove('visible');
     navTo('screen-login');

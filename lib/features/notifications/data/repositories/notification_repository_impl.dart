@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:shop_ease/core/error/failures.dart';
-
 import 'package:shop_ease/features/notifications/domain/entities/notification_item.dart';
 import 'package:shop_ease/features/notifications/domain/repositories/notification_repository.dart';
 
@@ -14,16 +13,22 @@ class NotificationRepositoryImpl implements NotificationRepository {
     ),
     NotificationItem(
       id: '2',
-      title: 'Flash Sale',
-      message: 'Electronics are 30% off for the next 6 hours!',
+      title: 'Flash Sale — 30% OFF!',
+      message: "Electronics are 30% off for the next 6 hours. Don't miss out!",
       timestamp: DateTime.now().subtract(const Duration(hours: 5)),
-      isRead: true,
     ),
     NotificationItem(
       id: '3',
-      title: 'Welcome',
-      message: 'Welcome to Shop Ease! Enjoy your first purchase.',
+      title: 'Welcome to Shop Ease',
+      message: 'Enjoy 10% off your first purchase with code WELCOME10.',
       timestamp: DateTime.now().subtract(const Duration(days: 1)),
+      isRead: true,
+    ),
+    NotificationItem(
+      id: '4',
+      title: 'Security Alert',
+      message: 'Your password was successfully changed.',
+      timestamp: DateTime.now().subtract(const Duration(days: 1, hours: 4)),
       isRead: true,
     ),
   ];
