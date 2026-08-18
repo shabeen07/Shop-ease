@@ -69,17 +69,23 @@ class SettingsPage extends StatelessWidget {
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            ...AppThemeMode.values.map(
-              (mode) => RadioListTile<AppThemeMode>(
-                title: Text(mode.name.toUpperCase()),
-                value: mode,
-                groupValue: currentMode,
-                onChanged: (newMode) {
-                  if (newMode != null) {
-                    context.read<SettingsBloc>().add(ThemeModeChanged(newMode));
-                    Navigator.pop(context);
-                  }
-                },
+            RadioGroup<AppThemeMode>(
+              groupValue: currentMode,
+              onChanged: (newMode) {
+                if (newMode != null) {
+                  context.read<SettingsBloc>().add(ThemeModeChanged(newMode));
+                  Navigator.pop(context);
+                }
+              },
+              child: Column(
+                children: AppThemeMode.values
+                    .map(
+                      (mode) => RadioListTile<AppThemeMode>(
+                        title: Text(mode.name.toUpperCase()),
+                        value: mode,
+                      ),
+                    )
+                    .toList(),
               ),
             ),
           ],
