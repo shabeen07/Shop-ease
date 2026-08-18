@@ -9,14 +9,15 @@ import 'package:shop_ease/features/product_detail/presentation/bloc/product_deta
 import 'package:shop_ease/features/product_detail/presentation/bloc/product_detail_event.dart';
 import 'package:shop_ease/features/product_detail/presentation/bloc/product_detail_state.dart';
 
-class MockGetProductDetail extends Mock implements GetProductDetail {}
+class MockGetProductDetailUseCase extends Mock
+    implements GetProductDetailUseCase {}
 
 void main() {
   late ProductDetailBloc bloc;
-  late MockGetProductDetail mockGetProductDetail;
+  late MockGetProductDetailUseCase mockGetProductDetail;
 
   setUp(() {
-    mockGetProductDetail = MockGetProductDetail();
+    mockGetProductDetail = MockGetProductDetailUseCase();
     bloc = ProductDetailBloc(getProductDetail: mockGetProductDetail);
   });
 

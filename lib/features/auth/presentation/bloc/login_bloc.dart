@@ -4,7 +4,7 @@ import 'package:shop_ease/features/auth/presentation/bloc/login_event.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final LoginUser loginUser;
+  final LoginUserUseCase loginUser;
 
   LoginBloc({required this.loginUser}) : super(LoginInitial()) {
     on<LoginSubmitted>(_onLoginSubmitted);

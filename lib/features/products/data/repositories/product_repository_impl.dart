@@ -27,4 +27,44 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(UnknownFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, ProductsPage>> searchProducts(String query) async {
+    try {
+      final responseModel = await remoteDataSource.searchProducts(query);
+      return Right(responseModel.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Search failed'));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getCategories() async {
+    try {
+      final categories = await remoteDataSource.getCategories();
+      return Right(categories);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Failed to load categories'));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProductsPage>> getProductsByCategory(
+    String category,
+  ) async {
+    try {
+      final responseModel = await remoteDataSource.getProductsByCategory(
+        category,
+      );
+      return Right(responseModel.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Filter failed'));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
 }

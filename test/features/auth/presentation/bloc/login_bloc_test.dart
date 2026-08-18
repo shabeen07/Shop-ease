@@ -9,14 +9,14 @@ import 'package:shop_ease/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_event.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_state.dart';
 
-class MockLoginUser extends Mock implements LoginUser {}
+class MockLoginUserUseCase extends Mock implements LoginUserUseCase {}
 
 void main() {
   late LoginBloc bloc;
-  late MockLoginUser mockLoginUser;
+  late MockLoginUserUseCase mockLoginUser;
 
   setUp(() {
-    mockLoginUser = MockLoginUser();
+    mockLoginUser = MockLoginUserUseCase();
     bloc = LoginBloc(loginUser: mockLoginUser);
 
     registerFallbackValue(LoginParams(username: '', password: ''));

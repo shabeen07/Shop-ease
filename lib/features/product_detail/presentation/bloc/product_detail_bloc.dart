@@ -1,11 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:shop_ease/features/product_detail/domain/usecases/get_product_detail.dart';
 import 'package:shop_ease/features/product_detail/presentation/bloc/product_detail_event.dart';
 import 'package:shop_ease/features/product_detail/presentation/bloc/product_detail_state.dart';
 
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
-  final GetProductDetail getProductDetail;
+  final GetProductDetailUseCase getProductDetail;
 
   ProductDetailBloc({required this.getProductDetail})
     : super(ProductInitial()) {

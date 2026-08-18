@@ -5,7 +5,7 @@ import 'package:shop_ease/features/auth/presentation/bloc/auth_event.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final RestoreSession restoreSession;
+  final RestoreSessionUseCase restoreSession;
   final AuthRepository repository;
 
   AuthBloc({required this.restoreSession, required this.repository})

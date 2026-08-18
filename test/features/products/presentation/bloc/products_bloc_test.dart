@@ -5,20 +5,41 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shop_ease/core/error/failures.dart';
 import 'package:shop_ease/features/products/domain/entities/product.dart';
 import 'package:shop_ease/features/products/domain/entities/products_page.dart';
+import 'package:shop_ease/features/products/domain/usecases/get_categories.dart';
 import 'package:shop_ease/features/products/domain/usecases/get_products.dart';
+import 'package:shop_ease/features/products/domain/usecases/get_products_by_category.dart';
+import 'package:shop_ease/features/products/domain/usecases/search_products.dart';
 import 'package:shop_ease/features/products/presentation/bloc/products_bloc.dart';
 import 'package:shop_ease/features/products/presentation/bloc/products_event.dart';
 import 'package:shop_ease/features/products/presentation/bloc/products_state.dart';
 
-class MockGetProducts extends Mock implements GetProducts {}
+class MockGetProductsUseCase extends Mock implements GetProductsUseCase {}
+
+class MockSearchProductsUseCase extends Mock implements SearchProductsUseCase {}
+
+class MockGetCategoriesUseCase extends Mock implements GetCategoriesUseCase {}
+
+class MockGetProductsByCategoryUseCase extends Mock
+    implements GetProductsByCategoryUseCase {}
 
 void main() {
   late ProductsBloc bloc;
-  late MockGetProducts mockGetProducts;
+  late MockGetProductsUseCase mockGetProducts;
+  late MockSearchProductsUseCase mockSearchProducts;
+  late MockGetCategoriesUseCase mockGetCategories;
+  late MockGetProductsByCategoryUseCase mockGetProductsByCategory;
 
   setUp(() {
-    mockGetProducts = MockGetProducts();
-    bloc = ProductsBloc(getProducts: mockGetProducts);
+    mockGetProducts = MockGetProductsUseCase();
+    mockSearchProducts = MockSearchProductsUseCase();
+    mockGetCategories = MockGetCategoriesUseCase();
+    mockGetProductsByCategory = MockGetProductsByCategoryUseCase();
+    bloc = ProductsBloc(
+      getProducts: mockGetProducts,
+      searchProducts: mockSearchProducts,
+      getCategories: mockGetCategories,
+      getProductsByCategory: mockGetProductsByCategory,
+    );
 
     registerFallbackValue(GetProductsParams());
   });

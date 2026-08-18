@@ -21,7 +21,10 @@ import 'package:shop_ease/features/product_detail/presentation/bloc/product_deta
 import 'package:shop_ease/features/products/data/datasources/product_remote_data_source.dart';
 import 'package:shop_ease/features/products/data/repositories/product_repository_impl.dart';
 import 'package:shop_ease/features/products/domain/repositories/product_repository.dart';
+import 'package:shop_ease/features/products/domain/usecases/get_categories.dart';
 import 'package:shop_ease/features/products/domain/usecases/get_products.dart';
+import 'package:shop_ease/features/products/domain/usecases/get_products_by_category.dart';
+import 'package:shop_ease/features/products/domain/usecases/search_products.dart';
 import 'package:shop_ease/features/products/presentation/bloc/products_bloc.dart';
 import 'package:shop_ease/features/settings/data/datasources/settings_local_data_source.dart';
 import 'package:shop_ease/features/settings/data/repositories/settings_repository_impl.dart';
@@ -79,40 +82,59 @@ Future<void> configureDependencies() async {
       () => NotificationRepositoryImpl(),
     )
     // Use Cases
-    ..registerLazySingleton<LoginUser>(() => LoginUser(getIt<AuthRepository>()))
-    ..registerLazySingleton<RestoreSession>(
-      () => RestoreSession(getIt<AuthRepository>()),
+    ..registerLazySingleton<LoginUserUseCase>(
+      () => LoginUserUseCase(getIt<AuthRepository>()),
     )
-    ..registerLazySingleton<GetProducts>(
-      () => GetProducts(getIt<ProductRepository>()),
+    ..registerLazySingleton<RestoreSessionUseCase>(
+      () => RestoreSessionUseCase(getIt<AuthRepository>()),
     )
-    ..registerLazySingleton<GetProductDetail>(
-      () => GetProductDetail(getIt<ProductDetailRepository>()),
+    ..registerLazySingleton<GetProductsUseCase>(
+      () => GetProductsUseCase(getIt<ProductRepository>()),
     )
-    ..registerLazySingleton<GetSettings>(
-      () => GetSettings(getIt<SettingsRepository>()),
+    ..registerLazySingleton<SearchProductsUseCase>(
+      () => SearchProductsUseCase(getIt<ProductRepository>()),
     )
-    ..registerLazySingleton<UpdateTheme>(
-      () => UpdateTheme(getIt<SettingsRepository>()),
+    ..registerLazySingleton<GetCategoriesUseCase>(
+      () => GetCategoriesUseCase(getIt<ProductRepository>()),
+    )
+    ..registerLazySingleton<GetProductsByCategoryUseCase>(
+      () => GetProductsByCategoryUseCase(getIt<ProductRepository>()),
+    )
+    ..registerLazySingleton<GetProductDetailUseCase>(
+      () => GetProductDetailUseCase(getIt<ProductDetailRepository>()),
+    )
+    ..registerLazySingleton<GetSettingsUseCase>(
+      () => GetSettingsUseCase(getIt<SettingsRepository>()),
+    )
+    ..registerLazySingleton<UpdateThemeUseCase>(
+      () => UpdateThemeUseCase(getIt<SettingsRepository>()),
     )
     // Blocs
     ..registerLazySingleton<AuthBloc>(
       () => AuthBloc(
-        restoreSession: getIt<RestoreSession>(),
+        restoreSession: getIt<RestoreSessionUseCase>(),
         repository: getIt<AuthRepository>(),
       ),
     )
-    ..registerFactory<LoginBloc>(() => LoginBloc(loginUser: getIt<LoginUser>()))
+    ..registerFactory<LoginBloc>(
+      () => LoginBloc(loginUser: getIt<LoginUserUseCase>()),
+    )
     ..registerFactory<ProductsBloc>(
-      () => ProductsBloc(getProducts: getIt<GetProducts>()),
+      () => ProductsBloc(
+        getProducts: getIt<GetProductsUseCase>(),
+        searchProducts: getIt<SearchProductsUseCase>(),
+        getCategories: getIt<GetCategoriesUseCase>(),
+        getProductsByCategory: getIt<GetProductsByCategoryUseCase>(),
+      ),
     )
     ..registerFactory<ProductDetailBloc>(
-      () => ProductDetailBloc(getProductDetail: getIt<GetProductDetail>()),
+      () =>
+          ProductDetailBloc(getProductDetail: getIt<GetProductDetailUseCase>()),
     )
     ..registerFactory<SettingsBloc>(
       () => SettingsBloc(
-        getSettings: getIt<GetSettings>(),
-        updateTheme: getIt<UpdateTheme>(),
+        getSettings: getIt<GetSettingsUseCase>(),
+        updateTheme: getIt<UpdateThemeUseCase>(),
       ),
     );
 }

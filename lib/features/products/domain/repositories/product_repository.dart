@@ -7,4 +7,7 @@ abstract class ProductRepository {
     required int limit,
     required int skip,
   });
+  Future<Either<Failure, ProductsPage>> searchProducts(String query);
+  Future<Either<Failure, List<String>>> getCategories();
+  Future<Either<Failure, ProductsPage>> getProductsByCategory(String category);
 }

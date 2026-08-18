@@ -21,7 +21,11 @@ These rules are derived from the project's core documentation and define the man
 - **Serialization:** `json_serializable` & `json_annotation` (Use `build_runner`)
 
 ## 4. Engineering & Coding Standards
-- **Naming:** Classes (PascalCase), Methods/Variables (camelCase), Files (snake_case).
+- **Naming:** 
+    - Classes: `PascalCase`.
+    - Methods/Variables: `camelCase`.
+    - Files: `snake_case`.
+    - **Use Cases:** Class names MUST end with the suffix `UseCase` (e.g., `LoginUseCase`, `GetProductsUseCase`).
 - **Widgets:** Focus on presentation only. Receive state via `BlocBuilder`/`BlocListener`.
 - **Error Handling:** Technical exceptions (Dio, Storage) -> Application Failures -> User-friendly State.
 - **DI Registration:** External -> Infrastructure -> DataSources -> Repositories -> UseCases -> BLoCs.

@@ -1,13 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:shop_ease/features/settings/domain/usecases/get_settings.dart';
 import 'package:shop_ease/features/settings/domain/usecases/update_theme.dart';
 import 'package:shop_ease/features/settings/presentation/bloc/settings_event.dart';
 import 'package:shop_ease/features/settings/presentation/bloc/settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final GetSettings getSettings;
-  final UpdateTheme updateTheme;
+  final GetSettingsUseCase getSettings;
+  final UpdateThemeUseCase updateTheme;
 
   SettingsBloc({required this.getSettings, required this.updateTheme})
     : super(const SettingsState()) {
