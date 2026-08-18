@@ -23,7 +23,7 @@ Allows the user to authenticate using their credentials before accessing the mai
 │  Sign in to your account              │  ← Subtitle
 │                                        │
 │  ┌──────────────────────────────────┐  │
-│  │  Email address              (M3) │  │  ← M3 Outlined Text Field
+│  │  Username                   (M3) │  │  ← M3 Outlined Text Field
 │  └──────────────────────────────────┘  │
 │                                        │
 │  ┌──────────────────────────────────┐  │
@@ -58,7 +58,7 @@ Allows the user to authenticate using their credentials before accessing the mai
 ## 8. User Interactions
 - Tap/focus input → floating label animates, Electric Blue border appears.
 - Tap **Sign in** → validation runs inline; if valid, button disables, text hides, spinner appears.
-- After 1.2 s simulated delay → navigate to Home (or show error banner for `error@example.com`).
+- After 1.2 s simulated delay → navigate to Home (or show error banner for `error_user`).
 
 ## 9. Loading State
 - Login button disabled, text hidden, white spinner visible inside button.
@@ -69,7 +69,7 @@ Allows the user to authenticate using their credentials before accessing the mai
 ## 11. Error States
 - **Inline field errors**: Red border + helper text below field.
 - **API error banner**: Top-level M3 error-container banner with icon.
-  - Demo trigger: use `error@example.com`.
+  - Demo trigger: use `error_user`.
 
 ## 12. Theme Behaviour
 - **Light**: White/light-neutral form body, gradient hero, Electric Blue accents.

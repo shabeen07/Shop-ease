@@ -137,9 +137,14 @@ The project must follow Dart and Flutter coding conventions.
 The project must follow Dart and Flutter coding conventions, as well as the AI-specific guidelines defined in the `.agents/` directory:
 
 - [AI Project Rules](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/rules/rules.agent.md)
-- [SDD Workflow](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/rules/workflow.agent.md)
+- [SDD Workflow](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/workflows/sdd-workflow.agent.md)
+- [Review Workflow](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/workflows/review-workflow.agent.md)
+- [Analysis Protocol](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/workflows/analysis-protocol.agent.md)
 - [Best Practices](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/rules/best_practices.agent.md)
+- [Testing Rules](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/rules/testing.agent.md)
+- [Layout Rules](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/rules/layout.agent.md)
 - [Project Core Skill](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/skills/project_core/SKILL.md)
+- [Testing Skill](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/skills/testing/SKILL.md)
 - [Legacy Rules (AGENTS.md)](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/rules/AGENTS.md)
 
 General rules:
