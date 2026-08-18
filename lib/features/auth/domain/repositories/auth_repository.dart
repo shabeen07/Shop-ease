@@ -7,4 +7,6 @@ abstract class AuthRepository {
     required String username,
     required String password,
   });
+  Future<Either<Failure, AuthenticatedUser?>> restoreSession();
+  Future<void> logout();
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-
 import 'package:shop_ease/app/di/injection.dart';
-import 'package:shop_ease/app/router/route_names.dart';
+import 'package:shop_ease/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:shop_ease/features/auth/presentation/bloc/auth_event.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:shop_ease/features/auth/presentation/bloc/login_state.dart';
 import 'package:shop_ease/features/auth/presentation/widgets/login_form.dart';
@@ -18,7 +17,7 @@ class LoginPage extends StatelessWidget {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            context.goNamed(RouteNames.home);
+            context.read<AuthBloc>().add(AuthUserChanged(state.user));
           } else if (state is LoginFailure) {
             ScaffoldMessenger.of(
               context,

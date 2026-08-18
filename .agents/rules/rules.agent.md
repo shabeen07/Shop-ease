@@ -26,7 +26,11 @@ These rules are derived from the project's core documentation and define the man
 - **Error Handling:** Technical exceptions (Dio, Storage) -> Application Failures -> User-friendly State.
 - **DI Registration:** External -> Infrastructure -> DataSources -> Repositories -> UseCases -> BLoCs.
 
-## 5. Static Analysis Mandate
+## 5. Modern API Compliance
+- **Zero Deprecations:** Always use the latest Flutter/Dart APIs. If a function or property is marked as deprecated, use the recommended alternative immediately.
+- **Proactive Migration:** Do not wait for hard removals. If the analyzer flags a `deprecated_member_use`, fix it before completing the task.
+
+## 6. Static Analysis Mandate
 - **Mandatory Workflow:** Always run `dart format`, `dart fix --apply`, and `flutter analyze` after code changes.
 - **Protocol Reference:** See [Analysis Protocol](file:///C:/Users/Opentrends/StudioProjects/AI-assignment/.agents/workflows/analysis-protocol.agent.md) for detailed steps.
 - **Zero-Issue Delivery:** Code is only complete when the analyzer reports 0 issues.

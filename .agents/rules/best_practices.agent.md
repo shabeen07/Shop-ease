@@ -2,6 +2,7 @@
 
 ## 1. Code Quality & Style
 - **Lints:** Follow `flutter_lints` and project-specific rules in `analysis_options.yaml`.
+- **Deprecations:** Never ignore `deprecated_member_use` warnings. Follow the "Try replacing the use..." suggestion in the analyzer output.
 - **Formatting:** Use `dart format .` before every commit.
 - **Immutability:** Use `final` and `const` wherever possible.
 - **Null Safety:** Leverage Dart's sound null safety; avoid `!`.
