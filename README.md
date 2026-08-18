@@ -38,7 +38,8 @@ Detailed specifications and guides are located in the `docs/` directory:
 - [Architecture Details](docs/architecture.md)
 - [Engineering Standards](docs/engineering.md)
 - [Design System & UI](docs/design.md)
-- [Task Baseline](docs/task.md)
+- [Task Baseline v1.0](docs/task.md)
+- [Task Document v2.0 (Current)](docs/task_v2.md)
 - [Feature Specs](docs/features/)
 
 ## 🏁 Getting Started
